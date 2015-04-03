@@ -23,4 +23,17 @@ func main() {
 		log.Fatal(err)
 	}
 	fmt.Println("Name:", content.Name)
+	covUrl, errcu := content.CoverUrl()
+	if errcu != nil {
+		log.Fatal(errcu)
+	}
+	fmt.Println("Cover URL:", covUrl.String())
+	comments, errcm := content.Comments()
+	if errcm != nil {
+		log.Fatal(errcm)
+	}
+	fmt.Println("Comments")
+	for _, comment := range comments.Comments {
+		fmt.Printf("[%s] %s - %s\n", comment.Date(), comment.Poster, comment.Text)
+	}
 }
