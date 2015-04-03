@@ -51,18 +51,15 @@ func main() {
 	if err1 != nil {
 		log.Fatal(err1)
 	}
-
-	for ind, page := range pages {
+	for _, page := range pages {
 		purl, perr := page.ImageUrl()
 		if perr != nil {
 			log.Fatal(perr)
 		}
-		//go func() {
-		dfErr := DownloadFile(purl, fmt.Sprintf("%d.jpg", ind), 0644)
+		dfErr := DownloadFile(purl, fmt.Sprintf("%s.jpg", page.Id), 0644)
 		if dfErr != nil {
 			log.Print(dfErr)
 		}
-		//}()
 	}
 }
 
