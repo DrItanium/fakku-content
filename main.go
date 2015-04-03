@@ -42,7 +42,7 @@ func main() {
 	}
 
 	// try getting the covUrl's contents
-	derr0 := DownloadFile(covUrl, "cover-thumbnail", 0644)
+	derr0 := DownloadFile(covUrl, "cover-thumbnail.jpg", 0644)
 	if derr0 != nil {
 		log.Fatal(derr0)
 	}
@@ -56,7 +56,7 @@ func main() {
 		if perr != nil {
 			log.Fatal(perr)
 		}
-		dfErr := DownloadFile(purl, fmt.Sprintf("%d.jpg", ind), 0644)
+		dfErr := DownloadFile(purl, fmt.Sprintf("%03d.jpg", ind), 0644)
 		if dfErr != nil {
 			log.Print(dfErr)
 		}
