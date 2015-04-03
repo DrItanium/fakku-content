@@ -4,7 +4,11 @@ import (
 	"flag"
 	"fmt"
 	"github.com/DrItanium/fakku"
+	"io/ioutil"
 	"log"
+	"net/http"
+	"net/url"
+	"os"
 )
 
 var category = flag.String("category", fakku.Manga, "the type of the content")
@@ -34,6 +38,30 @@ func main() {
 	}
 	fmt.Println("Comments")
 	for _, comment := range comments.Comments {
-		fmt.Printf("[%s] %s - %s\n", comment.Date(), comment.Poster, comment.Text)
+		fmt.Printf("\t[%s] %s - %s\n", comment.Date(), comment.Poster, comment.Text)
 	}
+
+	// try getting the covUrl's contents
+	derr0 := DownloadFile(covUrl, "cover-thumbnail", 0644)
+	if derr0 != nil {
+		log.Fatal(derr0)
+	}
+}
+
+func DownloadFile(url *url.URL, outputDir string, perms os.FileMode) error {
+	resp, rerr := http.Get(url.String())
+	if rerr != nil {
+		return rerr
+	}
+	defer resp.Body.Close()
+	img, ierr := ioutil.ReadAll(resp.Body)
+
+	if ierr != nil {
+		return ierr
+	}
+	werr := ioutil.WriteFile(outputDir, img, perms)
+	if werr != nil {
+		return werr
+	}
+	return nil
 }
