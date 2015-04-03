@@ -2,5 +2,5 @@ Returns information about a piece of content (usually a manga or doujinshi)
 
 To install:
 
-go get github.com/DrItanium/fakku-content
+go install github.com/DrItanium/fakku-content
 
