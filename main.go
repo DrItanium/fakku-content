@@ -2,11 +2,12 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"github.com/DrItanium/fakku"
 	"log"
 )
 
-var group = flag.String("group", fakku.Manga, "the type of the content")
+var category = flag.String("category", fakku.Manga, "the type of the content")
 var name = flag.String("name", "", "the name of the content itself, this is usually what you would find in the URL")
 
 func main() {
@@ -14,8 +15,12 @@ func main() {
 	if *name == "" {
 		log.Fatal("Did not provide a name")
 	}
-	if !fakku.LegalGroup(*group) {
-		log.Fatalf("Illegal group %s provided", *group)
+	if !fakku.LegalCategory(*category) {
+		log.Fatalf("Illegal category %s provided", *category)
 	}
-
+	content, err := fakku.GetContent(*category, *name)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println("Name:", content.Name)
 }
